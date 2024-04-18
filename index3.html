@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anemia Detection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            background-image: linear-gradient(45deg, #ff99cc, #66ccff);
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            max-width: 800px;
+            width: 80%;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 20px;
+            text-align: left;
+            font-size: 18px; /* Increased font size */
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input[type="file"] {
+            border: none;
+            border-bottom: 2px solid #ccc;
+            margin-bottom: 10px;
+            padding: 8px;
+            width: 80%;
+            font-size: 16px;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .alert {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffcc00;
+            color: #000;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            z-index: 9999;
+            width: auto;
+            max-width: 80%;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: blink 1s infinite alternate;
+        }
+
+        .alert i {
+            margin-right: 10px;
+        }
+
+        .alert p {
+            margin: 0;
+        }
+
+        @keyframes blink {
+            from {
+                background-color: #ffcc00;
+            }
+            to {
+                background-color: #ff99cc;
+            }
+        }
+
+        .medical-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        /* Chatbot icon styles */
+        .chatbot-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .chatbot-icon:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="alert">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p><strong>Important:</strong> Real-time data processing requires approval from an ethics committee. This ensures that the data collection and analysis follow strict ethical guidelines to protect participant rights and privacy. For now, we are using publicly available data only.</p>
+        <i class="fas fa-info-circle"></i>
+    </div>
+    <div class="container">
+        <h1>Anemia Detection</h1>
+        <p>Anemia is a condition in which you lack enough healthy red blood cells to carry adequate oxygen to your body's tissues. It can cause fatigue, weakness, pale skin, shortness of breath, and other symptoms. Please note that this tool is for primary detection only. Consult a healthcare professional for a confirmed diagnosis and treatment.</p>
+        <form id="anemia-form" action="/anemia-detection-tool/predict" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*" required>
+            <button type="submit">Detect Anemia</button>
+        </form>
+    </div>
+
+    <!-- Chatbot icon -->
+    <button class="chatbot-icon" onclick="readMessage()">
+        🤖
+    </button>
+
+    <script>
+        // Function to read the important message aloud
+        function readMessage() {
+            var message = document.querySelector('.alert p').textContent;
+            var msg = new SpeechSynthesisUtterance(message);
+            window.speechSynthesis.speak(msg);
+
+            // Read the anemia definition
+            var anemiaDefinition = document.querySelector('.container p').textContent;
+            var anemiaMsg = new SpeechSynthesisUtterance(anemiaDefinition);
+            window.speechSynthesis.speak(anemiaMsg);
+
+            // Prompt the user to upload an eye conjunctiva image after reading the definition
+            var uploadMsg = new SpeechSynthesisUtterance("Please upload an eye conjunctiva image to detect anemia.");
+            window.speechSynthesis.speak(uploadMsg);
+
+            // Speak out the prediction process when the form is submitted
+            document.getElementById('anemia-form').addEventListener('submit', function() {
+                var predictMsg = new SpeechSynthesisUtterance("Analyzing the image to predict anemia. Please wait.");
+                window.speechSynthesis.speak(predictMsg);
+            });
+        }
+    </script>
+</body>
+</html>
